@@ -1,7 +1,14 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import socketIO from "socket.io-client";
-const socket = socketIO.connect(import.meta.env.VITE_SOCKET_IO_URL);
+
+// add token ando connect to socketio
+const socket = socketIO(import.meta.env.VITE_SOCKET_IO_URL, {
+  auth: {
+    token: 'valid'
+  }
+});
+
 
 function App() {
 
