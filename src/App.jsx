@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import socketIO from "socket.io-client";
+const socket = socketIO.connect(import.meta.env.VITE_SOCKET_IO_URL);
 
 function App() {
 
-  const socket = socketIO.connect(import.meta.env.VITE_SOCKET_IO_URL);
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
