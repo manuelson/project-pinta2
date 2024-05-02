@@ -1,13 +1,11 @@
 import { createTLStore, defaultShapeUtils, uniqueId } from "tldraw";
 import { useState } from "react";
-import socketIO from "socket.io-client";
-const socket = socketIO(import.meta.env.VITE_SOCKET_IO_URL, {
-  auth: {
-    token: "valid",
-  },
-});
+import { useSocket } from "src/hooks/useSocket";
 
 export function useSyncStore() {
+
+  const socket = useSocket();
+
   const [store] = useState(() => {
     // Create the store
     const newStore = createTLStore({
@@ -55,5 +53,5 @@ export function useSyncStore() {
     }
   });
 
-  return {store, socket};
+  return store;
 }
