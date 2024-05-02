@@ -66,7 +66,7 @@ function App() {
     NavigationPanel: null,
     KeyboardShortcutsDialog: null,
     QuickActions: null,
-    HelperButtons: null,
+    //HelperButtons: null,
     DebugPanel: null,
     DebugMenu: null,
     SharePanel: null,
@@ -77,7 +77,7 @@ function App() {
 
   return (
     <div style={{ position: "fixed", inset: 1 }}>
-      <Tldraw store={store} components={components}>
+      <Tldraw store={store} components={components} autoFocus={false}>
         <CustomUi />
       </Tldraw>
       <button
