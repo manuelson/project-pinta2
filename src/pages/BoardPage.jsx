@@ -1,4 +1,4 @@
-import { Board } from "src/components/Board";
+import { Board } from "src/components/Board/Board";
 
 const HomePage = () => {
   return (

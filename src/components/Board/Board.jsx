@@ -1,6 +1,6 @@
 import { Tldraw } from "tldraw";
 import { useSyncStore } from "src/hooks/useSyncStore";
-import CustomUi from "src/components/CustomUi";
+import CustomUi from "src/components/Board/CustomUi";
 import "tldraw/tldraw.css";
 
 export function Board() {

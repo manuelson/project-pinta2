@@ -1,5 +1,4 @@
-import { Tldraw, track, useEditor } from "tldraw";
-import { useSyncStore } from "src/hooks/useSyncStore";
+import { track, useEditor } from "tldraw";
 import { useEffect } from "react";
 import "src/custom-ui.css";
 
