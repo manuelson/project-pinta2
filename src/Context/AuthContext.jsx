@@ -10,9 +10,9 @@ export const AuthContext = createContext({
 const Provider = ({children}) => {
   const { getItem } = useLocalStorage();
   const [user, setUser] = useState(() => {
-    const storedUser = getItem("user");
-    if (storedUser) {
-      return JSON.parse(storedUser);
+    const store = getItem("user");
+    if (store) {
+      return JSON.parse(store);
     }
     return null;
   })

@@ -1,8 +1,9 @@
-import { Board } from "src/components/Board";
+import { RouterProvider } from "react-router-dom";
+import { Router } from "src/components/Router";
 
 function App() {
   return (
-    <Board />
+    <RouterProvider router={Router} />
   );
 }
 export default App;
