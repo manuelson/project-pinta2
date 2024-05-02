@@ -31,20 +31,11 @@ function App() {
   };
 
   return (
-    <div style={{ height: "100vh", width: "100vh", inset: 1 }}>
+    <div style={{ position: "fixed", inset: 1 }}>
       <Tldraw store={store} components={components} autoFocus={false}>
         <Arrow/>
         <CustomUi />
       </Tldraw>
-      <button
-        onClick={() => {
-          const snapshot = store.getSnapshot();
-          const stringified = JSON.stringify(snapshot);
-          localStorage.setItem("my-editor-snapshot", stringified);
-        }}
-      >
-        Save
-      </button>
     </div>
   );
 }
