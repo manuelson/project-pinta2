@@ -1,58 +1,13 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { Tldraw, track, useEditor, useTools } from "tldraw";
-import socketIO from "socket.io-client";
 import "tldraw/tldraw.css";
 import { useSyncStore } from "./useSyncStore";
 import "./custom-ui.css";
 
-const socket = socketIO(import.meta.env.VITE_SOCKET_IO_URL, {
-  auth: {
-    token: "valid",
-  },
-});
-
 function App() {
-  const [messages, setMessages] = useState([]);
 
-  useEffect(() => {
-    socket.on("messageResponse", (data) => setMessages([...messages, data]));
-  }, [socket, messages]);
-
-  const store = useSyncStore();
-
-  socket.on("canvasResponse", (message) => {
-    if (message.clientId === socket.id) return;
-
-    const data = JSON.parse(message.data);
-    for (const update of data) {
-      store.mergeRemoteChanges(() => {
-        const {
-          changes: { added, updated, removed },
-        } = update;
-
-        for (const record of Object.values(added)) {
-          store.put([record]);
-        }
-        for (const [, to] of Object.values(updated)) {
-          store.put([to]);
-        }
-        for (const record of Object.values(removed)) {
-          store.remove([record.id]);
-        }
-      });
-    }
-  });
-
-  store.listen(
-    (update) => {
-      socket.emit("canvas", {
-        clientId: socket.id,
-        data: JSON.stringify([update]),
-      });
-    },
-    { scope: "document", source: "user" }
-  );
+  const {store, socket} = useSyncStore();
 
   const components = {
     ContextMenu: null,
@@ -72,12 +27,13 @@ function App() {
     SharePanel: null,
     MenuPanel: null,
     TopPanel: null,
-    Toolbar: null
+    Toolbar: null,
   };
 
   return (
-    <div style={{ position: "fixed", inset: 1 }}>
+    <div style={{ height: "100vh", width: "100vh", inset: 1 }}>
       <Tldraw store={store} components={components} autoFocus={false}>
+        <Arrow/>
         <CustomUi />
       </Tldraw>
       <button
@@ -92,6 +48,16 @@ function App() {
     </div>
   );
 }
+
+const Arrow = track(() => {
+  const editor = useEditor();
+  console.log(editor)
+  return (
+    <div className="custom-layout">
+      <div className="custom-toolbar"></div>
+    </div>
+  );
+});
 
 const CustomUi = track(() => {
   const editor = useEditor();

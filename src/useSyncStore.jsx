@@ -1,5 +1,11 @@
 import { createTLStore, defaultShapeUtils, uniqueId } from "tldraw";
 import { useState } from "react";
+import socketIO from "socket.io-client";
+const socket = socketIO(import.meta.env.VITE_SOCKET_IO_URL, {
+  auth: {
+    token: "valid",
+  },
+});
 
 export function useSyncStore() {
   const [store] = useState(() => {
@@ -16,5 +22,38 @@ export function useSyncStore() {
     return newStore;
   });
 
-  return store;
+  store.listen(
+    (update) => {
+      socket.emit("canvas", {
+        clientId: socket.id,
+        data: JSON.stringify([update]),
+      });
+    },
+    { scope: "document", source: "user" }
+  );
+
+  socket.on("canvasResponse", (message) => {
+    if (message.clientId === socket.id) return;
+
+    const data = JSON.parse(message.data);
+    for (const update of data) {
+      store.mergeRemoteChanges(() => {
+        const {
+          changes: { added, updated, removed },
+        } = update;
+
+        for (const record of Object.values(added)) {
+          store.put([record]);
+        }
+        for (const [, to] of Object.values(updated)) {
+          store.put([to]);
+        }
+        for (const record of Object.values(removed)) {
+          store.remove([record.id]);
+        }
+      });
+    }
+  });
+
+  return {store, socket};
 }
