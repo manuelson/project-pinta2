@@ -1,11 +1,16 @@
 import { useEffect, useRef, useState } from "react";
-import { track, useEditor, useQuickReactor } from "tldraw";
+import {
+  track,
+  useEditor,
+  useQuickReactor,
+} from "tldraw";
 
 const ZoomToFit = track(() => {
   const editor = useEditor();
 
   const [showBackToContent, setShowBackToContent] = useState(false);
   const rIsShowing = useRef(false);
+
 
   useEffect(() => {
     let timeoutId = null;
@@ -15,20 +20,21 @@ const ZoomToFit = track(() => {
           clearTimeout(timeoutId);
         }
         timeoutId = setTimeout(() => {
-          editor.zoomToFit({ duration: 5 });
+          editor.zoomToFit({ duration: 5 })
         }, 500);
       }
     };
 
-    window.addEventListener("resize", handleResize, { passive: false });
+    window.addEventListener('resize', handleResize);
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
       if (timeoutId !== null) {
         clearTimeout(timeoutId);
       }
     };
   }, []);
+
 
   useQuickReactor(
     "zoom-to-fit",
@@ -44,13 +50,11 @@ const ZoomToFit = track(() => {
         setShowBackToContent(showBackToContentNow);
         rIsShowing.current = showBackToContentNow;
       }
-    },
-    [editor]
-  );
+    }, [editor]);
 
   if (!showBackToContent) return null;
 
-  if (showBackToContent) return editor.zoomToFit({ duration: 5 });
+  if (showBackToContent) editor.zoomToFit({ duration: 5 });
 
 });
 
