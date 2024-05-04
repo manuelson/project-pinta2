@@ -3,6 +3,7 @@ import { Layout } from "src/layout/Index";
 import ErrorPage  from "src/pages/ErrorPage";
 import HomePage from "src/pages/HomePage";
 import BoardPage from "src/pages/BoardPage";
+import GamePage from "src/pages/GamePage";
 
 export const Router = createBrowserRouter([
     {
@@ -16,6 +17,10 @@ export const Router = createBrowserRouter([
             {
                 path: "/board",
                 element: <BoardPage/>,
+            },
+            {
+                path: "/game/:id",
+                element: <GamePage/>,
             }
         ],
     },

@@ -31,10 +31,19 @@ export function Board() {
 
 
   return (
-    <div style={{ position: "fixed", inset: 1 }}>
-      <Tldraw store={store} components={components} autoFocus={false} forceMobile={true}>
+    <div
+    style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+
+    }}
+  >
+    <div style={{ width: '700px', height: '80vh' }}>
+    <Tldraw store={store} components={components} autoFocus={false} forceMobile={true}>
         <ZoomToFit />
       </Tldraw>
     </div>
+  </div>
   );
 }
